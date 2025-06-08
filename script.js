@@ -5,6 +5,9 @@ document.getElementById('coffeeForm').addEventListener('submit', function(e) {
         date: new Date().toLocaleString(),
         grind: `${document.getElementById('grindCoarse').value}.${document.getElementById('grindFine').value}`,
         name: document.getElementById('coffeeName').value,
+        origin: document.getElementById('coffeeOrigin').value,
+        process: document.getElementById('coffeeProcess').value,
+        roaster: document.getElementById('coffeeRoaster').value,
         method: document.getElementById('brewMethod').value,
         dose: document.getElementById('dose').value,
         water: document.getElementById('water').value,
@@ -32,7 +35,8 @@ function renderHistory() {
 
         div.innerHTML = `
             <div><strong>${entry.date}</strong> – Настройка: ${entry.grind}</div>
-            <div>Кафе: ${entry.name} (${entry.method})</div>
+            <div><strong>${entry.name}</strong> (${entry.method})</div>
+            <div>Произход: ${entry.origin} | Процес: ${entry.process} | Ростер: ${entry.roaster}</div>
             <div>Доза: ${entry.dose}г | Вода: ${entry.water}г | Време: ${entry.time}</div>
             <div>Оценка: ${entry.taste}</div>
             <div>Бележки: ${entry.notes}</div>
