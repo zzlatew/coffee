@@ -1,9 +1,14 @@
 document.getElementById('coffeeForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
+    const grindRaw = $("#grindKnob").data("roundSlider").getValue();
+    const coarse = Math.floor(grindRaw / 10);
+    const fine = grindRaw % 10;
+    const grind = `${coarse}.${fine}`;
+
     const entry = {
         date: new Date().toLocaleString(),
-        grind: `${document.getElementById('grindCoarse').value}.${document.getElementById('grindFine').value}`,
+        grind,
         name: document.getElementById('coffeeName').value,
         origin: document.getElementById('coffeeOrigin').value,
         process: document.getElementById('coffeeProcess').value,
@@ -52,6 +57,30 @@ function deleteEntry(index) {
     history.splice(index, 1);
     localStorage.setItem('coffeeHistory', JSON.stringify(history));
     renderHistory();
+}
+
+function exportToCSV() {
+    const history = JSON.parse(localStorage.getItem('coffeeHistory') || '[]');
+    if (history.length === 0) {
+        alert("Няма записи за експортиране.");
+        return;
+    }
+
+    const header = Object.keys(history[0]);
+    const rows = history.map(entry =>
+        header.map(key => `"${(entry[key] || "").replace(/"/g, '""')}"`)
+    );
+    const csvContent = [header.join(","), ...rows.map(r => r.join(","))].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "coffee_journal.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 renderHistory();
