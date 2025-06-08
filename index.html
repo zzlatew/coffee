@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coffee Journal</title>
+    <script src="script.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <header class="bg-white shadow p-4 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+            <span class="text-2xl">☕</span>
+            <h1 class="text-xl font-semibold">Coffee Journal</h1>
+        </div>
+    </header>
+    <main class="p-4 max-w-2xl mx-auto">
+        <form id="coffeeForm" class="bg-white p-4 rounded shadow space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label>Груба настройка</label>
+                    <select id="grindCoarse" class="w-full p-2 border rounded">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Фина настройка</label>
+                    <select id="grindFine" class="w-full p-2 border rounded">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select>
+                </div>
+            </div>
+            <input id="coffeeName" type="text" placeholder="Име на кафето" class="w-full p-2 border rounded" />
+            <input id="brewMethod" type="text" value="V60" class="w-full p-2 border rounded" />
+            <div class="grid grid-cols-2 gap-4">
+                <input id="dose" type="number" placeholder="Доза (г)" class="w-full p-2 border rounded" />
+                <input id="water" type="number" placeholder="Вода (г)" class="w-full p-2 border rounded" />
+            </div>
+            <input id="brewTime" type="text" placeholder="Време (напр. 2:30)" class="w-full p-2 border rounded" />
+            <textarea id="taste" placeholder="Оценка/вкус" class="w-full p-2 border rounded"></textarea>
+            <textarea id="notes" placeholder="Бележки" class="w-full p-2 border rounded"></textarea>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Запази</button>
+        </form>
+        <section class="mt-8">
+            <h2 class="text-lg font-semibold mb-4">История</h2>
+            <div id="history" class="space-y-2"></div>
+        </section>
+    </main>
+</body>
+</html>
