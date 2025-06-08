@@ -5,14 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Coffee Journal</title>
 
-  <!-- Tailwind -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <!-- Скрипт -->
+  <!-- roundSlider -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.js"></script>
+
   <script src="script.js" defer></script>
+
+  <style>
+    .rs-control {
+      margin: 0 auto;
+    }
+  </style>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">
   <header class="bg-white shadow p-4 flex items-center justify-between">
@@ -26,8 +35,8 @@
     <form id="coffeeForm" class="bg-white p-4 rounded shadow space-y-4">
       <div>
         <label class="block mb-2 font-semibold text-center">Настройка на мелачката (X-Ultra)</label>
-        <input type="range" id="grindSlider" min="0" max="359" value="180" class="w-full">
-        <p class="text-center mt-2 text-lg">
+        <div id="grindKnob" class="mb-4"></div>
+        <p class="text-center text-lg">
           Избрана настройка: <span id="grindValue">3.0.0</span>
           (<span id="grindClicks">180</span> клика)
         </p>
