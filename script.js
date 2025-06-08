@@ -5,24 +5,34 @@ function formatClicksToText(clicks) {
   return `${rotation}.${number}.${subClick}`;
 }
 
+function updateGrindDisplay(val) {
+  document.getElementById("grindValue").textContent = formatClicksToText(val);
+  document.getElementById("grindClicks").textContent = val;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  const grindSlider = document.getElementById('grindSlider');
-  const grindValue = document.getElementById('grindValue');
-  const grindClicks = document.getElementById('grindClicks');
+  $("#grindKnob").roundSlider({
+    radius: 100,
+    width: 16,
+    handleSize: "+16",
+    sliderType: "min-range",
+    value: 180,
+    min: 0,
+    max: 359,
+    step: 1,
+    circleShape: "full",
+    startAngle: 315,
+    drag: function (e) { updateGrindDisplay(e.value); },
+    change: function (e) { updateGrindDisplay(e.value); }
+  });
 
-  const updateGrind = () => {
-    const val = parseInt(grindSlider.value);
-    grindValue.textContent = formatClicksToText(val);
-    grindClicks.textContent = val;
-  };
-
-  grindSlider.addEventListener('input', updateGrind);
-  updateGrind();
+  updateGrindDisplay(180);
 
   document.getElementById('coffeeForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const clicks = parseInt(grindSlider.value);
+    const clicks = $("#grindKnob").data("roundSlider").getValue();
+
     const entry = {
       date: new Date().toLocaleString(),
       grindClicks: clicks,
@@ -43,8 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
     history.unshift(entry);
     localStorage.setItem('coffeeHistory', JSON.stringify(history));
     this.reset();
-    grindSlider.value = 180;
-    updateGrind();
+    $("#grindKnob").roundSlider("setValue", 180);
+    updateGrindDisplay(180);
     renderHistory();
   });
 
