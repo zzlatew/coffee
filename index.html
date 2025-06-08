@@ -4,8 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Coffee Journal</title>
-    <script src="script.js" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.js"></script>
+    <script src="script.js" defer></script>
+    <style>
+        .rs-control {
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">
     <header class="bg-white shadow p-4 flex items-center justify-between">
@@ -16,36 +23,24 @@
     </header>
     <main class="p-4 max-w-2xl mx-auto">
         <form id="coffeeForm" class="bg-white p-4 rounded shadow space-y-4">
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label>Груба настройка</label>
-                    <select id="grindCoarse" class="w-full p-2 border rounded">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Фина настройка</label>
-                    <select id="grindFine" class="w-full p-2 border rounded">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                    </select>
-                </div>
+            <div class="text-center">
+                <label class="block mb-2 font-semibold">Настройка на мелачката</label>
+                <div id="grindKnob" class="mx-auto"></div>
+                <div class="mt-2 text-lg">Избрана настройка: <span id="grindValue">3.0</span></div>
             </div>
+
             <input id="coffeeName" type="text" placeholder="Име на кафето" class="w-full p-2 border rounded" />
             <input id="coffeeOrigin" type="text" placeholder="Държава / Произход" class="w-full p-2 border rounded" />
-            <input id="coffeeProcess" type="text" placeholder="Процес (напр. Washed, Natural)" class="w-full p-2 border rounded" />
+
+            <select id="coffeeProcess" class="w-full p-2 border rounded">
+                <option value="">Избери процес</option>
+                <option value="Washed">Washed</option>
+                <option value="Natural">Natural</option>
+                <option value="Honey">Honey</option>
+                <option value="Anaerobic">Anaerobic</option>
+                <option value="Other">Друг</option>
+            </select>
+
             <input id="coffeeRoaster" type="text" placeholder="Ростер / Пекарна (по избор)" class="w-full p-2 border rounded" />
             <input id="brewMethod" type="text" value="V60" class="w-full p-2 border rounded" />
             <div class="grid grid-cols-2 gap-4">
@@ -57,10 +52,37 @@
             <textarea id="notes" placeholder="Бележки" class="w-full p-2 border rounded"></textarea>
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Запази</button>
         </form>
+
         <section class="mt-8">
             <h2 class="text-lg font-semibold mb-4">История</h2>
+            <button onclick="exportToCSV()" class="mb-4 bg-green-500 text-white px-4 py-2 rounded">Експортирай в CSV</button>
             <div id="history" class="space-y-2"></div>
         </section>
     </main>
+
+    <script>
+        const grindSlider = $("#grindKnob").roundSlider({
+            radius: 100,
+            width: 16,
+            handleSize: "+16",
+            sliderType: "min-range",
+            value: 30,
+            min: 10,
+            max: 59,
+            step: 1,
+            circleShape: "full",
+            startAngle: 315,
+            change: updateGrind,
+            drag: updateGrind
+        });
+
+        function updateGrind(e) {
+            const raw = e.value;
+            const coarse = Math.floor(raw / 10);
+            const fine = raw % 10;
+            const final = `${coarse}.${fine}`;
+            document.getElementById("grindValue").innerText = final;
+        }
+    </script>
 </body>
 </html>
