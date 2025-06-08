@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grind Test</title>
+  <title>Coffee Journal</title>
 
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -15,17 +15,63 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.css">
   <script src="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.js"></script>
 
+  <!-- Твоят JS файл -->
+  <script src="script.js" defer></script>
+
   <style>
     .rs-control {
       margin: 0 auto;
     }
   </style>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col items-center justify-center">
-  <h1 class="text-2xl mb-4">Настройка на мелачката</h1>
+<body class="bg-gray-100 text-gray-800 font-sans">
+  <header class="bg-white shadow p-4 flex items-center justify-between">
+    <div class="flex items-center space-x-2">
+      <span class="text-2xl">☕</span>
+      <h1 class="text-xl font-semibold">Coffee Journal</h1>
+    </div>
+  </header>
+  <main class="p-4 max-w-2xl mx-auto">
+    <form id="coffeeForm" class="bg-white p-4 rounded shadow space-y-4">
+      <div class="text-center">
+        <label class="block mb-2 font-semibold">Настройка на мелачката</label>
+        <div id="grindKnob" class="mx-auto"></div>
+        <div class="mt-2 text-lg">Избрана настройка: <span id="grindValue">3.0</span></div>
+      </div>
 
-  <div id="grindKnob" class="mb-4"></div>
-  <div class="text-xl">Избрана стойност: <span id="grindValue">3.0</span></div>
+      <input id="coffeeName" type="text" placeholder="Име на кафето" class="w-full p-2 border rounded" />
+      <input id="coffeeOrigin" type="text" placeholder="Държава / Произход" class="w-full p-2 border rounded" />
+
+      <select id="coffeeProcess" class="w-full p-2 border rounded">
+        <option value="">Избери процес</option>
+        <option value="Washed">Washed</option>
+        <option value="Natural">Natural</option>
+        <option value="Honey">Honey</option>
+        <option value="Anaerobic">Anaerobic</option>
+        <option value="Other">Друг</option>
+      </select>
+
+      <input id="coffeeRoaster" type="text" placeholder="Ростер / Пекарна (по избор)" class="w-full p-2 border rounded" />
+      <input id="brewMethod" type="text" value="V60" class="w-full p-2 border rounded" />
+
+      <div class="grid grid-cols-2 gap-4">
+        <input id="dose" type="number" placeholder="Доза (г)" class="w-full p-2 border rounded" />
+        <input id="water" type="number" placeholder="Вода (г)" class="w-full p-2 border rounded" />
+      </div>
+
+      <input id="brewTime" type="text" placeholder="Време (напр. 2:30)" class="w-full p-2 border rounded" />
+      <textarea id="taste" placeholder="Оценка/вкус" class="w-full p-2 border rounded"></textarea>
+      <textarea id="notes" placeholder="Бележки" class="w-full p-2 border rounded"></textarea>
+
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Запази</button>
+    </form>
+
+    <section class="mt-8">
+      <h2 class="text-lg font-semibold mb-4">История</h2>
+      <button onclick="exportToCSV()" class="mb-4 bg-green-500 text-white px-4 py-2 rounded">Експортирай в CSV</button>
+      <div id="history" class="space-y-2"></div>
+    </section>
+  </main>
 
   <script>
     const grindSlider = $("#grindKnob").roundSlider({
