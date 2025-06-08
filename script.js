@@ -1,31 +1,53 @@
-document.getElementById('coffeeForm').addEventListener('submit', function(e) {
-  e.preventDefault();
+function formatClicksToText(clicks) {
+  const rotation = Math.floor(clicks / 60);
+  const number = Math.floor((clicks % 60) / 10);
+  const subClick = clicks % 10;
+  return `${rotation}.${number}.${subClick}`;
+}
 
-  const grindRaw = $("#grindKnob").data("roundSlider").getValue();
-  const coarse = Math.floor(grindRaw / 10);
-  const fine = grindRaw % 10;
-  const grind = `${coarse}.${fine}`;
+document.addEventListener('DOMContentLoaded', () => {
+  const grindSlider = document.getElementById('grindSlider');
+  const grindValue = document.getElementById('grindValue');
+  const grindClicks = document.getElementById('grindClicks');
 
-  const entry = {
-    date: new Date().toLocaleString(),
-    grind,
-    name: document.getElementById('coffeeName').value,
-    origin: document.getElementById('coffeeOrigin').value,
-    process: document.getElementById('coffeeProcess').value,
-    roaster: document.getElementById('coffeeRoaster').value,
-    method: document.getElementById('brewMethod').value,
-    dose: document.getElementById('dose').value,
-    water: document.getElementById('water').value,
-    time: document.getElementById('brewTime').value,
-    taste: document.getElementById('taste').value,
-    notes: document.getElementById('notes').value
+  const updateGrind = () => {
+    const val = parseInt(grindSlider.value);
+    grindValue.textContent = formatClicksToText(val);
+    grindClicks.textContent = val;
   };
 
-  const history = JSON.parse(localStorage.getItem('coffeeHistory') || '[]');
-  history.unshift(entry);
-  localStorage.setItem('coffeeHistory', JSON.stringify(history));
+  grindSlider.addEventListener('input', updateGrind);
+  updateGrind();
 
-  this.reset();
+  document.getElementById('coffeeForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const clicks = parseInt(grindSlider.value);
+    const entry = {
+      date: new Date().toLocaleString(),
+      grindClicks: clicks,
+      grindText: formatClicksToText(clicks),
+      name: document.getElementById('coffeeName').value,
+      origin: document.getElementById('coffeeOrigin').value,
+      process: document.getElementById('coffeeProcess').value,
+      roaster: document.getElementById('coffeeRoaster').value,
+      method: document.getElementById('brewMethod').value,
+      dose: document.getElementById('dose').value,
+      water: document.getElementById('water').value,
+      time: document.getElementById('brewTime').value,
+      taste: document.getElementById('taste').value,
+      notes: document.getElementById('notes').value
+    };
+
+    const history = JSON.parse(localStorage.getItem('coffeeHistory') || '[]');
+    history.unshift(entry);
+    localStorage.setItem('coffeeHistory', JSON.stringify(history));
+    this.reset();
+    grindSlider.value = 180;
+    updateGrind();
+    renderHistory();
+  });
+
   renderHistory();
 });
 
@@ -39,7 +61,7 @@ function renderHistory() {
     div.className = 'bg-white p-4 rounded shadow';
 
     div.innerHTML = `
-      <div><strong>${entry.date}</strong> – Настройка: ${entry.grind}</div>
+      <div><strong>${entry.date}</strong> – Настройка: ${entry.grindText} (${entry.grindClicks} клика)</div>
       <div><strong>${entry.name}</strong> (${entry.method})</div>
       <div>Произход: ${entry.origin} | Процес: ${entry.process} | Ростер: ${entry.roaster}</div>
       <div>Доза: ${entry.dose}г | Вода: ${entry.water}г | Време: ${entry.time}</div>
@@ -47,7 +69,6 @@ function renderHistory() {
       <div>Бележки: ${entry.notes}</div>
       <button onclick="deleteEntry(${index})" class="text-red-500 mt-2">Изтрий</button>
     `;
-
     container.appendChild(div);
   });
 }
@@ -82,5 +103,3 @@ function exportToCSV() {
   link.click();
   document.body.removeChild(link);
 }
-
-renderHistory();
