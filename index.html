@@ -4,11 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Coffee Journal</title>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- jQuery (ЗАДЪЛЖИТЕЛНА за roundSlider) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- roundSlider -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Собственият JS файл -->
     <script src="script.js" defer></script>
+
     <style>
         .rs-control {
             margin: 0 auto;
@@ -44,13 +53,16 @@
 
             <input id="coffeeRoaster" type="text" placeholder="Ростер / Пекарна (по избор)" class="w-full p-2 border rounded" />
             <input id="brewMethod" type="text" value="V60" class="w-full p-2 border rounded" />
+
             <div class="grid grid-cols-2 gap-4">
                 <input id="dose" type="number" placeholder="Доза (г)" class="w-full p-2 border rounded" />
                 <input id="water" type="number" placeholder="Вода (г)" class="w-full p-2 border rounded" />
             </div>
+
             <input id="brewTime" type="text" placeholder="Време (напр. 2:30)" class="w-full p-2 border rounded" />
             <textarea id="taste" placeholder="Оценка/вкус" class="w-full p-2 border rounded"></textarea>
             <textarea id="notes" placeholder="Бележки" class="w-full p-2 border rounded"></textarea>
+
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Запази</button>
         </form>
 
