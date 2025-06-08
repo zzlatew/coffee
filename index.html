@@ -11,18 +11,8 @@
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <!-- roundSlider -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.js"></script>
-
-  <!-- Твоят JS файл -->
+  <!-- Скрипт -->
   <script src="script.js" defer></script>
-
-  <style>
-    .rs-control {
-      margin: 0 auto;
-    }
-  </style>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">
   <header class="bg-white shadow p-4 flex items-center justify-between">
@@ -31,12 +21,16 @@
       <h1 class="text-xl font-semibold">Coffee Journal</h1>
     </div>
   </header>
+
   <main class="p-4 max-w-2xl mx-auto">
     <form id="coffeeForm" class="bg-white p-4 rounded shadow space-y-4">
-      <div class="text-center">
-        <label class="block mb-2 font-semibold">Настройка на мелачката</label>
-        <div id="grindKnob" class="mx-auto"></div>
-        <div class="mt-2 text-lg">Избрана настройка: <span id="grindValue">3.0</span></div>
+      <div>
+        <label class="block mb-2 font-semibold text-center">Настройка на мелачката (X-Ultra)</label>
+        <input type="range" id="grindSlider" min="0" max="359" value="180" class="w-full">
+        <p class="text-center mt-2 text-lg">
+          Избрана настройка: <span id="grindValue">3.0.0</span>
+          (<span id="grindClicks">180</span> клика)
+        </p>
       </div>
 
       <input id="coffeeName" type="text" placeholder="Име на кафето" class="w-full p-2 border rounded" />
@@ -72,30 +66,5 @@
       <div id="history" class="space-y-2"></div>
     </section>
   </main>
-
-  <script>
-    const grindSlider = $("#grindKnob").roundSlider({
-      radius: 100,
-      width: 16,
-      handleSize: "+16",
-      sliderType: "min-range",
-      value: 30,
-      min: 10,
-      max: 59,
-      step: 1,
-      circleShape: "full",
-      startAngle: 315,
-      change: updateGrind,
-      drag: updateGrind
-    });
-
-    function updateGrind(e) {
-      const raw = e.value;
-      const coarse = Math.floor(raw / 10);
-      const fine = raw % 10;
-      const final = `${coarse}.${fine}`;
-      document.getElementById("grindValue").innerText = final;
-    }
-  </script>
 </body>
 </html>
